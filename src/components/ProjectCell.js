@@ -4,8 +4,15 @@ export default class ProjectCell extends Component {
 
     constructor(props){
         super(props);
+        this.handlerClick = this.handlerClick.bind(this);
         this.header = this.header.bind(this);
         this.row = this.row.bind(this);
+    }
+
+    handlerClick(){
+        if (!this.props.header){
+            this.props.onClick(this.props.values);
+        }
     }
 
     header(values){
@@ -20,7 +27,7 @@ export default class ProjectCell extends Component {
 
     row(values, idx){
         return (
-            <tr key={idx}>
+            <tr onClick={this.handlerClick} key={idx}>
                 <td>{values.id}</td>
                 <td>{values.name}</td>
                 <td>{values.description}</td>
