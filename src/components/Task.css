@@ -1,0 +1,13 @@
+#task{
+    min-width: 250px;
+    max-width: 500px;
+    flex-grow: 1;
+    margin: 1em;
+}
+
+.task-description, .task-team{
+    border-radius: 5px;
+    background-color: #ddd;
+    padding: 1em;
+    margin-top: .5em;
+}

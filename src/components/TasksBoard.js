@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Spinner } from 'react-bootstrap';
 import { getTasks } from '../services/tasks/getTasks'
 import Task from './Task';
+import './TaskBoard.css'
 
 export default class TasksBoard extends Component {
 
@@ -19,10 +20,10 @@ export default class TasksBoard extends Component {
     render() {
         return (
             this.state.fetched ? 
-                <div>
-                {this.state.tasks.map( (task, index) => {
-                    return <Task values={task}/>
-                })}
+                <div id="task-container">
+                    {this.state.tasks != null ? this.state.tasks.map( (task, index) => {
+                        return <Task values={task}/>
+                    }) : <strong>No se han asignado tareas a este proyecto</strong>}
                 </div> :
                 <Spinner animation="border" />
         )

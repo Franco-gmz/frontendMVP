@@ -3,27 +3,28 @@ import ProjectsBoard from '../components/ProjectsBoard'
 import { Tabs, Tab} from 'react-bootstrap'
 import './Projects.css'
 import Project from '../components/Project';
-
+import ProjectForm from '../components/ProjectForm';
 export default class Projects extends Component {
 
     constructor(props){
         super(props);
-        this.state = {projectClicked:false, project:{}, active:this.props.active ? this.props.active : "projects"}
+        this.state = {projectClicked:false, project:[], active:this.props.active ? this.props.active : "projects"}
         this.handlerClickProject = this.handlerClickProject.bind(this);
         this.handlerCloseProject = this.handlerCloseProject.bind(this);
         this.handlerClickTab = this.handlerClickTab.bind(this);
     }
 
     handlerClickProject(project){
-        this.setState({projectClicked:true, project:project, active:"project"});
-        //ACTUALIZAR UN ESTADO PARA QUE SE AGREGUE UN TAB QUE PASANDOLE project BUSQUE LAS TAREAS Y MUESTRE
+        let projects = this.state.project;
+        projects.push(project);
+        this.setState({projectClicked:true, project:projects, active:project.id});
     }
 
     handlerCloseProject(){
-        this.setState({projectClicked:false, project:{}, active:"projects"});
+        this.setState({projectClicked:false, project:[], active:"projects"});
     }
 
-    handlerClickTab(key){
+    handlerClickTab(key){ 
         this.setState({active:key});
     }
 
@@ -35,12 +36,14 @@ export default class Projects extends Component {
                         <ProjectsBoard onClick={this.handlerClickProject} />
                     </Tab>
                     <Tab eventKey="create" title="Nuevo">
-                        <h5>Algo</h5>
+                        <ProjectForm />
                     </Tab>
-                    {this.state.projectClicked && 
-                        <Tab eventKey="project" title={"Proyecto - " + this.state.project.name}>
-                            <Project values={this.state.project} onClose={this.handlerCloseProject}/>
-                        </Tab>
+                    {this.state.projectClicked && this.state.project.length != 0 && 
+                        this.state.project.map((project,idx) => {
+                            return(<Tab eventKey={project.id} title={"Proyecto - " + project.name}>
+                                <Project values={project} onClose={this.handlerCloseProject}/>
+                            </Tab>)
+                        })
                     }
                 </Tabs>
             </div>

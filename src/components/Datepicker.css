@@ -1,0 +1,8 @@
+.react-calendar{
+    position: absolute;
+}
+
+
+#calendar-container:not(:hover) .react-calendar{
+    visibility: hidden;
+}
