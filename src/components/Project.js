@@ -4,11 +4,12 @@ import './Project.css'
 import Team from './Team';
 import AddToTeam from './AddToTeam';
 import {AiOutlineClose} from 'react-icons/ai'
-import EditWindow from './EditWindow';
+import EditProjectWindow from './EditProjectWindow';
 import DeleteWindow from './DeleteWindow';
 import { updateProject } from '../services/projects/updateProject'
 import { deleteProject } from '../services/projects/deleteProject'
 import Button from 'react-bootstrap/Button'
+import EditTaskWindow from './EditTaskWindow';
 
 export default class Project extends Component {
 
@@ -16,6 +17,7 @@ export default class Project extends Component {
         super(props);
         this.handlerUpdate = this.handlerUpdate.bind(this);
         this.handlerDelete = this.handlerDelete.bind(this);
+        console.log(this.props)
     }
 
     render() {
@@ -25,7 +27,7 @@ export default class Project extends Component {
                     <div id="project-info-container" className="left-align">
                         <small className="project-id">#{this.props.values.id}</small>
                         <h4 className="project-name">{this.props.values.name + '          '}
-                                                     <EditWindow onSubmit={this.handlerUpdate} values={this.props.values} />{'     '}
+                                                     <EditProjectWindow onSubmit={this.handlerUpdate} values={this.props.values} />{'     '}
                                                      <DeleteWindow onDelete={this.handlerDelete} values={this.props.values}/>{'     '}
                                                      <Button variant="warning"><AiOutlineClose onClick={this.props.onClose}/></Button>
                         </h4>
@@ -37,11 +39,11 @@ export default class Project extends Component {
                          <p className="project-leader-container">Asignado a <span className="project-leader">{this.props.values.leader || "Sin asignar"}</span></p>
                     </div>
                     <div id="project-team-container" className="left-align">
-                        <strong>Equipo</strong><AddToTeam/>
+                        <strong>Equipo</strong><AddToTeam project={true}/>
                         <Team values={this.props.values.team} /> 
                     </div>
                 </div>
-                <h5 className="left-align">Tareas</h5>
+                <strong className="left-align">Tareas</strong><EditTaskWindow plus={true} values={{name:'',description:'', state:'',team:[]}}/>
                 <TasksBoard id={this.props.values.id} />
             </div>
         )

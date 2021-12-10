@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Modal from 'react-bootstrap/Modal'
-import  {AiOutlinePlus} from 'react-icons/ai'
+import  {AiOutlinePlus, AiOutlineClose} from 'react-icons/ai'
 import { Table } from 'react-bootstrap'
 
 //pasandole un handler para cuando acepte, cubro proyecto y tarea
@@ -55,6 +55,7 @@ export default class AddToTeam extends Component {
                                    <td>member.id</td>
                                    <td>member.surname</td>
                                    <td>member.name</td>
+                                   <td><AiOutlineClose/></td>
                                    </tr>)
                         })}
                     </tbody>

@@ -8,10 +8,9 @@ import {BiEdit} from 'react-icons/bi'
 
 import React, { Component } from 'react'
 
-export default class EditWindow extends Component {
+export default class EditProjectWindow extends Component {
     constructor(props){
         super(props);
-        console.log(props.values);
         this.state = {show:false, name:this.props.values.name, description:this.props.values.description,
                       state:this.props.values.state, start:this.props.values.start, finish:this.props.values.finish,
                       leader:this.props.values.leader || 0}
@@ -24,6 +23,18 @@ export default class EditWindow extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleShow = this.handleShow.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.formatDate = this.formatDate.bind(this);
+    }
+
+    formatDate(date){
+        try{
+            let month = (parseInt(date.getMonth() + 1))
+            toString(month)
+            let formattedDate = (date.getDate() + "/" + month + "/" + date.getFullYear());
+            return formattedDate;
+        } catch(e){
+            return date;
+        }
     }
 
     handleName(name){
@@ -88,14 +99,14 @@ export default class EditWindow extends Component {
                 <Form.Group  as={Row} className="mb-3 left-align" controlId="startDate">
                     <Form.Label column sm="4">Fecha de inicio <span className="obligatory">*</span></Form.Label>
                     <Col sm="auto">
-                        <Form.Control readOnly value={this.state.start} />
+                        <Form.Control readOnly value={this.formatDate(this.state.start)} />
                     </Col>
                     <Col sm="2"><Datepicker date={this.state.start} selectDate={this.handleStart}/></Col>
                 </Form.Group>
                 <Form.Group  as={Row} className="mb-3 left-align" controlId="finishDate">
                     <Form.Label column sm="4">Fecha de finalización <span className="obligatory">*</span></Form.Label>
                     <Col lg="auto" sm="auto">
-                        <Form.Control readOnly value={this.state.finish} />
+                        <Form.Control readOnly value={this.formatDate(this.state.finish)} />
                     </Col>
                     <Col sm="2"><Datepicker date={this.state.finish} selectDate={this.handleFinish}/></Col>
                 </Form.Group>

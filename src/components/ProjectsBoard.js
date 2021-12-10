@@ -7,10 +7,11 @@ import { getProjects } from '../services/projects/getProjects'
 
 export default class ProjectsBoard extends Component {
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.handlerClick = this.handlerClick.bind(this);
         this.state = {projects:[], fetched:false};
+        this.props.onUpdate();
     }
 
     async componentDidMount(){

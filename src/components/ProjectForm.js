@@ -26,7 +26,9 @@ export default class ProjectForm extends Component {
     }
     
     formatDate(date){
-        return (date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear());
+        let month = (parseInt(date.getMonth() + 1))
+        toString(month)
+        return (date.getDate() + "/" + month + "/" + date.getFullYear());
     }
 
     render() {
@@ -69,7 +71,7 @@ export default class ProjectForm extends Component {
                         </Col>
                         <Col md="2" sm="auto">
                             <Form.Select onChange={this.handlerLeader} column sm="2" aria-label="Default select example">
-                                <option>Sin asignar</option>
+                                <option>0</option>
                                 <option value="1">Ejemplo1</option>
                                 <option value="2">Ejemplo2</option>
                                 <option value="3">Ejemplo3</option>
@@ -104,10 +106,16 @@ export default class ProjectForm extends Component {
         e.preventDefault();
         let validation = this.validForm();
         if(validation.isValid){
+            console.log({name:this.state.name, description:this.state.description,
+                start:this.state.startDate,finish:this.state.finishDate,
+                leader:this.state.leader, state:this.state.state})
             let res = await createProject({name:this.state.name, description:this.state.description,
-                start:this.formatDate(this.state.startDate),finish:this.formatDate(this.state.finishDate),
+                start:this.state.startDate,finish:this.state.finishDate,
                 leader:this.state.leader, state:this.state.state}); //seleccionar lider
-            if(res.state == 200) this.cleanForm();
+            if(res.status == 200){
+                this.cleanForm();
+                this.props.onSubmit();
+            }
         } else {
             this.setState({submitError:true, errorMsg:validation.message});
             setTimeout(()=> {
