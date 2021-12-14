@@ -1,8 +1,0 @@
-#project-header{
-    display: flex;
-}
-
-#project-info-container, #project-team-container{
-    flex-grow: 1;
-    flex-wrap: wrap;
-}

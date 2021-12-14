@@ -22,7 +22,7 @@ export default class TasksBoard extends Component {
             this.state.fetched ? 
                 <div id="task-container">
                     {this.state.tasks != null ? this.state.tasks.map( (task, index) => {
-                        return <Task values={task}/>
+                        return <Task id_project={this.props.id} values={task}/>
                     }) : <strong>No se han asignado tareas a este proyecto</strong>}
                 </div> :
                 <Spinner animation="border" />

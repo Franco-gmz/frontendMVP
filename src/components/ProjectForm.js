@@ -22,7 +22,7 @@ export default class ProjectForm extends Component {
         this.handlerSubmit = this.handlerSubmit.bind(this);
         this.cleanForm = this.cleanForm.bind(this);
         this.validForm = this.validForm.bind(this);
-        this.state = {name:'', description:'', state:'No iniciado',startDate: new Date(), finishDate: new Date(), leader:0, submitError:false, errorMsg:''};
+        this.state = {name:'', description:'', state:'Inicio',startDate: new Date(), finishDate: new Date(), leader:0, submitError:false, errorMsg:''};
     }
     
     formatDate(date){
@@ -106,9 +106,6 @@ export default class ProjectForm extends Component {
         e.preventDefault();
         let validation = this.validForm();
         if(validation.isValid){
-            console.log({name:this.state.name, description:this.state.description,
-                start:this.state.startDate,finish:this.state.finishDate,
-                leader:this.state.leader, state:this.state.state})
             let res = await createProject({name:this.state.name, description:this.state.description,
                 start:this.state.startDate,finish:this.state.finishDate,
                 leader:this.state.leader, state:this.state.state}); //seleccionar lider

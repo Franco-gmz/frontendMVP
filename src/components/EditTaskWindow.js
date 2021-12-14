@@ -13,7 +13,6 @@ import React, { Component } from 'react'
 export default class EditTaskWindow extends Component {
     constructor(props){
         super(props);
-        console.log(props.values);
         this.state = {show:false, name:this.props.values.name || '', description:this.props.values.description || '',
                       state:this.props.values.state || ''}
         this.handleName = this.handleName.bind(this);
@@ -25,13 +24,15 @@ export default class EditTaskWindow extends Component {
     }
 
     handleName(name){
-        this.setState({name:name});
+      if(name.length <= 20) this.setState({name:name}); 
     }
     handleDescription(description){
-        this.setState({description:description});
+        if(description.length <= 50){
+            this.setState({description:description});
+        }
     }
-    handleState(state){
-        this.setState({state:state});
+    handleState(e){
+        this.setState({state:e.target.value});
     }
     handleClose(){
         this.setState({show:false});
@@ -46,31 +47,30 @@ export default class EditTaskWindow extends Component {
     render() {
         return (
       <>
-        <Button variant="warning" onClick={this.handleShow}>{this.props.plus ? <AiOutlinePlus/>:<BiEdit/>}</Button>
+        <Button variant="warning" onClick={this.handleShow}>{!this.props.edit ? <div>Agrega tarea <AiOutlinePlus/></div>:<div>Editar tarea <BiEdit/></div>}</Button>
         <Modal show={this.state.show} onHide={this.handleClose} size="lg">
           <Modal.Header closeButton>
-            <Modal.Title>Editor - {this.props.values.name}</Modal.Title>
+            <Modal.Title>{this.props.edit ? "Editar tarea":"Crear tarea"}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
           <Form>
                 <Form.Group className="mb-3 left-align" controlId="exampleForm.ControlInput1">
                     <Form.Label>Nombre <span className="obligatory">*</span></Form.Label>
-                    <Form.Control defaultValue={this.state.name} onChange={e => this.handleName(e.target.value)}/>
+                    <Form.Control value={this.state.name} onChange={e => this.handleName(e.target.value)}/>
                     <Form.Text className="text-muted">Máx. 20 caracteres</Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-3 left-align" controlId="exampleForm.ControlTextarea1">
                     <Form.Label>Descripción <span className="obligatory">*</span></Form.Label>
-                    <Form.Control defaultValue={this.state.description} as="textarea" rows={3} onChange={e => this.handleDescription(e.target.value)} />
+                    <Form.Control value={this.state.description} as="textarea" rows={3} onChange={e => this.handleDescription(e.target.value)} />
                     <Form.Text className="text-muted">Máx. 50 caracteres</Form.Text>
                 </Form.Group>
                 <Form.Group  as={Row} className="mb-3 left-align" controlId="exampleForm.ControlTextarea1">
                     <Form.Label column sm="4">Estado</Form.Label>
                     <Col sm="auto">
-                        <Form.Select onChange={this.handleState} column sm="2" aria-label="Default select example">
-                            <option>{this.state.state}</option>
-                            <option value="1">Ejemplo1</option>
-                            <option value="2">Ejemplo2</option>
-                            <option value="3">Ejemplo3</option>
+                        <Form.Select onChange={(e) => this.handleState(e)} column sm="2" aria-label="Default select example">
+                            <option selected={this.state.state == "No iniciada"} value="No iniciada">No iniciada</option>
+                            <option selected={this.state.state == "Iniciada"} value="Iniciada">Iniciada</option>
+                            <option selected={this.state.state == "Finalizada"} value="Finalizada">Finalizada</option>
                         </Form.Select>
                     </Col>
                 </Form.Group>

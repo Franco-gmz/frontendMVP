@@ -7,8 +7,6 @@ import Modal from 'react-bootstrap/Modal'
 import  {AiOutlinePlus, AiOutlineClose} from 'react-icons/ai'
 import { Table } from 'react-bootstrap'
 
-//pasandole un handler para cuando acepte, cubro proyecto y tarea
-
 export default class AddToTeam extends Component {
     constructor(props){
         super(props);
@@ -20,7 +18,7 @@ export default class AddToTeam extends Component {
     render() {
         return (
     <>
-        <Button variant="info" onClick={this.handleShow}><AiOutlinePlus/></Button>
+        <Button className="crud-button" variant="info" onClick={this.handleShow}>Agregar al equipo<AiOutlinePlus/></Button>
         <Modal show={this.state.show} onHide={this.handleClose} size="lg">
             <Modal.Header closeButton>
                 <Modal.Title>Agregar miembros {this.state.is_project ? "al proyecto" : "a la tarea"}</Modal.Title>

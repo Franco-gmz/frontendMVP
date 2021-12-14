@@ -20,3 +20,28 @@ code {
 .obligatory{
   color:red;
 }
+
+#project-view{
+  display: flex;
+  flex-wrap: wrap;
+  padding: .3em;
+}
+
+#project-view > *{
+  flex-grow: 1;
+  margin: 1em;
+}
+
+#project-team-container{
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+#project-buttons, #team-buttons, #tasks-buttons, #task-buttons{
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.crud-button{
+  flex-grow: 1;
+}

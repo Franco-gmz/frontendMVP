@@ -40,12 +40,12 @@ export default class Projects extends Component {
 
     render() {
         return (
-            <div id="project-view">
+            <div id="projects-view">
                 <Tabs onSelect={(key) => {this.handlerClickTab(key)}} activeKey={this.state.active} id="uncontrolled-tab-example" className="mb-3">
                     <Tab  eventKey="projects" title="Proyectos">
                         <ProjectsBoard onUpdate={this.handleUpdate} key={this.state.update} onClick={this.handlerClickProject} />
                     </Tab>
-                    <Tab eventKey="create" title="Nuevo">
+                    <Tab eventKey="create" title="+ Nuevo">
                         <ProjectForm onSubmit={this.handleCreate}/>
                     </Tab>
                     {this.state.projectClicked && this.state.project.length != 0 && 
