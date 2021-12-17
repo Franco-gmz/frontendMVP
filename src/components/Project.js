@@ -10,6 +10,8 @@ import EditProjectWindow from './EditProjectWindow';
 import DeleteWindow from './DeleteWindow';
 import { updateProject } from '../services/projects/updateProject'
 import { deleteProject } from '../services/projects/deleteProject'
+import { addToProjectTeam } from '../services/team/addToProjectTeam'
+import { deleteFromProjectTeam } from '../services/team/deleteFromProjectTeam'
 import { createTask } from '../services/tasks/createTask'
 import Button from 'react-bootstrap/Button'
 import EditTaskWindow from './EditTaskWindow';
@@ -18,19 +20,21 @@ export default class Project extends Component {
 
     constructor(props){
         super(props);
+        this.state = {team:this.props.values.team, update:false}
         this.handlerUpdate = this.handlerUpdate.bind(this);
         this.handlerDelete = this.handlerDelete.bind(this);
         this.handleCreateTask = this.handleCreateTask.bind(this);
+        this.handleUpdateComponents = this.handleUpdateComponents.bind(this);
+        this.handleUpdateTeam = this.handleUpdateTeam.bind(this);
+        this.handleRefresh = this.handleRefresh.bind(this)
     }
 
     render() {
         return (
-            <div id="project-view">
+            <div id="project-view" key={this.state.update}>
                 <Card id="project-card">
                     <Card.Header id="project-header">
-                        <Card.Title className="project-title">{this.props.values.name + '          '}
-                            
-                        </Card.Title>
+                        <Card.Title className="project-title">{this.props.values.name + '          '}</Card.Title>
                         <Card.Subtitle><small className="project-id">Identificador {this.props.values.id}</small></Card.Subtitle>
                     </Card.Header>
                     <Card.Body id="project-info">
@@ -60,11 +64,11 @@ export default class Project extends Component {
                         <Card.Title id="project-team-title">Equipo</Card.Title>
                     </Card.Header>
                     <Card.Body>
-                        <Team values={this.props.values.team} /> 
+                        <Team key={this.state.update} values={this.state.team || []} /> 
                     </Card.Body>
                     <Card.Footer>
                         <ButtonGroup id="team-buttons">
-                            <AddToTeam project={true}/>
+                            <AddToTeam onSubmit={this.handleUpdateTeam} key={this.state.update} update={this.handleRefresh} team={this.state.team || []} project={true}/>
                         </ButtonGroup>
                     </Card.Footer>
                 </Card>
@@ -85,6 +89,10 @@ export default class Project extends Component {
         )
     }
 
+    handleRefresh(){
+        this.setState({update:!this.state.update})
+    }
+
     async handlerUpdate(values){
         let res = await updateProject(this.props.values.id, values);
         if(res.status == 200) window.location.reload();
@@ -98,5 +106,22 @@ export default class Project extends Component {
     async handlerDelete(){
         let result = await deleteProject(this.props.values);
         if(result.status == 200) window.location.reload();
+    }
+
+    handleUpdateComponents(){     
+        this.props.onUpdate(this.props.values.id);
+        this.setState({update: !this.state.update});
+    }
+
+    async handleUpdateTeam(added, removed){
+        if (added.length > 0){
+            let res = await addToProjectTeam(this.props.values.id, added);
+        }
+        if (removed.length > 0){
+            removed.forEach(async (e) => {
+                let res = await deleteFromProjectTeam(this.props.values.id, e);
+            })
+        }
+        this.handleUpdateComponents();
     }
 }

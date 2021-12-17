@@ -47,7 +47,7 @@ export default class EditTaskWindow extends Component {
     render() {
         return (
       <>
-        <Button variant="warning" onClick={this.handleShow}>{!this.props.edit ? <div>Agrega tarea <AiOutlinePlus/></div>:<div>Editar tarea <BiEdit/></div>}</Button>
+        <Button variant="warning" onClick={this.handleShow}>{!this.props.edit ? <div>Agregar tarea <AiOutlinePlus/></div>:<div>Editar tarea <BiEdit/></div>}</Button>
         <Modal show={this.state.show} onHide={this.handleClose} size="lg">
           <Modal.Header closeButton>
             <Modal.Title>{this.props.edit ? "Editar tarea":"Crear tarea"}</Modal.Title>
