@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Modal from 'react-bootstrap/Modal'
 import {BiEdit} from 'react-icons/bi'
-import AddToTeam from './AddToTeam';
 import  {AiOutlinePlus} from 'react-icons/ai'
 
 
@@ -73,10 +72,6 @@ export default class EditTaskWindow extends Component {
                             <option selected={this.state.state == "Finalizada"} value="Finalizada">Finalizada</option>
                         </Form.Select>
                     </Col>
-                </Form.Group>
-                <Form.Group className="mb-3 left-align" controlId="exampleForm.ControlTextarea1">
-                    <Form.Label>Equipo</Form.Label><AddToTeam/>
-                    <Form.Text className="text-muted">Mostrar equipo actual</Form.Text>
                 </Form.Group>
             </Form> 
           </Modal.Body>

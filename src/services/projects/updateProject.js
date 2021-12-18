@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 export const updateProject = async function(id,data){
+    console.log(id, data)
     const route = 'https://desolate-journey-04573.herokuapp.com/api/project';
     console.log(data);
     console.log("id: ",id);

@@ -34,12 +34,14 @@ export default class ProjectCell extends Component {
                 <td>{values.state}</td>
                 <td>{values.start}</td>
                 <td>{values.finish}</td>
-                <td>{values.leader ? values.leader : "Sin asignar"}</td>
+                <td>{values.leader_name}</td>
             </tr>
         )
     }
 
     render() {
+        console.log(this.props.values)
+        console.log("name",this.props.values.leader)
         if (this.props.header) return this.header(this.props.values);
         return this.row(this.props.values, this.props.idx);
     }

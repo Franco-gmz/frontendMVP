@@ -16,17 +16,18 @@ export default class Projects extends Component {
         this.handleCreate = this.handleCreate.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.handleUpdateProject = this.handleUpdateProject.bind(this);
-        //this.handleUpdateComponent = this.handleUpdateComponent.bind(this);
     }
 
     handlerClickProject(project){
         let projects = this.state.project;
-        projects.push(project);
+        if(!this.state.project.find(p => p.id == project.id)) projects.push(project);
         this.setState({projectClicked:true, project:projects, active:project.id});
     }
 
-    handlerCloseProject(){
-        this.setState({projectClicked:false, project:[], active:"projects"});
+    handlerCloseProject(id){
+        let projects = this.state.project.filter((project) => project.id != id)
+        console.log(projects)
+        this.setState({project:projects, active:"projects"});
     }
 
     handlerClickTab(key){ 
@@ -41,10 +42,11 @@ export default class Projects extends Component {
         this.setState({active:"projects", update:false});
     }
 
-    async handleUpdateProject(id){
+    async handleUpdateProject(id, leader_name){
         let res = await getProject(id);
+        let updated = Object.assign(res.result, {leader_name:leader_name})
         let projects = this.state.project.filter( (project) => project.id != id);
-        projects.push(res.result);
+        projects.push(updated);
         this.setState({project:projects}, () => {
             this.setState({key:!this.state.key})
         })
@@ -60,10 +62,10 @@ export default class Projects extends Component {
                     <Tab eventKey="create" title="+ Nuevo">
                         <ProjectForm onSubmit={this.handleCreate}/>
                     </Tab>
-                    {this.state.projectClicked && this.state.project.length != 0 && 
+                    {this.state.project.length != 0 && 
                         this.state.project.map((project,idx) => {
-                            return(<Tab key={idx} eventKey={project.id} title={"Proyecto - " + project.name}>
-                                <Project key={this.state.key} onUpdate={this.handleUpdateProject} values={project} onClose={this.handlerCloseProject}/>
+                            return(<Tab key={this.state.key} eventKey={project.id} title={"Proyecto - " + project.name}>
+                                <Project key={idx} onUpdate={this.handleUpdateProject} values={project} onClose={this.handlerCloseProject}/>
                             </Tab>)
                         })
                     }

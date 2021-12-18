@@ -4,15 +4,16 @@ import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Modal from 'react-bootstrap/Modal'
-import  {AiOutlinePlus, AiOutlineClose} from 'react-icons/ai'
-import {BiEdit} from 'react-icons/bi'
+import  { AiOutlineClose} from 'react-icons/ai'
 import { Table } from 'react-bootstrap'
-import { getAllEmployees } from '../services/team/getAllEmployees'
+import { AiOutlineUsergroupAdd } from 'react-icons/ai'
+import { addTaskTeam } from '../services/team/addTaskTeam'
+import { deleteTaskTeam } from '../services/team/deleteTaskTeam'
 
-export default class AddToTeam extends Component {
+export default class TeamWindow extends Component {
     constructor(props){
         super(props);
-        this.state = {show:false, is_project: this.props.project, team:[], remainingEmployees:[], added:[], removed:[]}
+        this.state = {show:false, is_project: this.props.project, team:this.props.team || [], noteam:[], newMembers:[], removed:[]}
         this.handleClose = this.handleClose.bind(this);
         this.handleShow = this.handleShow.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
@@ -21,24 +22,22 @@ export default class AddToTeam extends Component {
     }
 
     async componentDidMount(){
-        if(this.props.team && this.props.team.length != 0) {
-            let fetched =  await getAllEmployees();
-            this.setState({
-                team: fetched.results.filter((employee) => {
-                    return this.props.team.includes(employee.id)
-                }),
-                remainingEmployees: fetched.results.filter((employee) => {
-                    return !this.props.team.includes(employee.id)
-                }),
-            })
-        }
+        let employees = JSON.parse(localStorage.getItem("employees"));
+        this.setState({
+            team: employees.filter((employee) => {
+                    return this.state.team.includes(employee.id)
+            }),
+            noteam: employees.filter((employee) => {
+                    return !this.state.team.includes(employee.id)
+            }),
+        })
         this.setState({fetched:true})
     }
 
     render() {
         return (
     <>
-        <Button className="crud-button" variant="success" onClick={this.handleShow}>Editar equipo     <BiEdit/></Button>
+        <Button className="crud-button" variant="success" onClick={this.handleShow}><AiOutlineUsergroupAdd/></Button>
         <Modal show={this.state.show} onHide={this.handleClose} size="lg">
             <Modal.Header closeButton>
                 <Modal.Title>Agregar miembros {this.state.is_project ? "al proyecto" : "a la tarea"}</Modal.Title>
@@ -52,7 +51,7 @@ export default class AddToTeam extends Component {
                         <Col sm="6">
                             <Form.Control as="select" onChange={(e)=> this.handleAdd(e.target.value)} column sm="2" aria-label="Default select example">
                                 <option></option>
-                                {this.state.remainingEmployees.map((employee, index) => {
+                                {this.state.noteam.map((employee, index) => {
                                     return(
                                         <option key={index} value={employee.id}>{employee.name + ' ' + employee.last_name}</option>
                                     )
@@ -91,42 +90,49 @@ export default class AddToTeam extends Component {
         )
     }
 
-    handleSubmit(){
-        this.props.onSubmit(this.state.added, this.state.removed);
+    async handleSubmit(){
+        if(this.state.newMembers.length > 0) await addTaskTeam(this.props.id, this.state.newMembers)
+        if(this.state.removed.length > 0){
+            this.state.removed.forEach(async (employee) => {
+                await deleteTaskTeam(this.props.id, employee)
+            })            
+        }
+        this.setState({removed:[], newMembers:[]});
+        this.handleClose();
+        this.props.onUpdate();
     }
 
     handleClose(){
         this.setState({show:false});
-        this.props.update();
     }
     handleShow(){
         this.setState({show:true});   
     }
 
     handleAdd(id){
-        let employee = this.state.remainingEmployees.filter((e) => e.id == id)[0];
-        let employees = this.state.team;
-        employees.push(employee)
-        let added = this.state.added;
-        added.push(id)
-        let removed = this.state.removed.filter( i => i ==id)
-        this.setState({team:employees, remainingEmployees: this.state.remainingEmployees.filter((e) => e.id != id), added:added, removed:removed})
+        let newMember = this.state.noteam.filter((e) => e.id == id)[0];
+        let currentTeam = this.state.team;
+        currentTeam.push(newMember)
+        let newMembers = this.state.newMembers;
+        newMembers.push(id)
+        let removed = this.state.removed.filter( i => i == id)
+        this.setState({team:currentTeam, noteam: this.state.noteam.filter((e) => e.id != id), newMembers:newMembers, removed:removed})
     }
 
     handleDelete(id){
-        let employee = this.state.team.filter((employee)=>{return employee.id == id;})[0];
-        let employees = this.state.remainingEmployees;
-        employees.push(employee)
-        let removed = [];
-        removed.push(id);
-        let added = this.state.added.filter( i => i == id)
+        let removedMember = this.state.team.filter((employee)=>{return employee.id == id;})[0];
+        let currentNoTeam = this.state.noteam;
+        currentNoTeam.push(removedMember)
+        let removedMembers = [];
+        removedMembers.push(id);
+        let newMembers = this.state.newMembers.filter( i => i == id)
         this.setState({
             team: this.state.team.filter((employee)=>{
                 return employee.id != id;
             }),
-            removed:removed,
-            added:added,
-            remainingEmployees: employees
+            removed:removedMembers,
+            newMembers:newMembers,
+            noteam: currentNoTeam
         })
     }
 }

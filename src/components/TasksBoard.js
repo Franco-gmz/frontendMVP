@@ -8,7 +8,8 @@ export default class TasksBoard extends Component {
 
     constructor(props){
         super(props);
-        this.state = {tasks:[], fetched:false};
+        this.state = {tasks:[], fetched:false, update:false};
+        this.handleUpdate = this.handleUpdate.bind(this)
     }
 
     async componentDidMount(){
@@ -16,12 +17,19 @@ export default class TasksBoard extends Component {
         this.setState({tasks : tasks[1], fetched: true})
     }
 
+    async handleUpdate(){
+        let tasks =  await getTasks(this.props.id);
+        this.setState({tasks : tasks[1]}, () => {
+            this.setState({update:!this.state.update})
+        })
+    }
+
     render() {
         return (
             this.state.fetched ? 
-                <div id="task-container">
+                <div key={this.state.update} id="task-container">
                     {this.state.tasks != null ? this.state.tasks.map( (task, index) => {
-                        return <Task key={index} id_project={this.props.id} values={task}/>
+                        return <Task key={this.state.update} id_project={this.props.id} values={task} onUpdate={this.handleUpdate}/>
                     }) : <strong>No se han asignado tareas a este proyecto</strong>}
                 </div> :
                 <Spinner animation="border" />

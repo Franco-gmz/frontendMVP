@@ -31,6 +31,11 @@ export default class ProjectForm extends Component {
         return (date.getDate() + "/" + month + "/" + date.getFullYear());
     }
 
+    getEmployees(){
+        return JSON.parse(localStorage.getItem("employees"))
+
+    }
+
     render() {
         return (
             <div id="project-form-container">
@@ -71,10 +76,8 @@ export default class ProjectForm extends Component {
                         </Col>
                         <Col md="2" sm="auto">
                             <Form.Select onChange={this.handlerLeader} column sm="2" aria-label="Default select example">
-                                <option>0</option>
-                                <option value="1">Ejemplo1</option>
-                                <option value="2">Ejemplo2</option>
-                                <option value="3">Ejemplo3</option>
+                                <option value="0" selected>Sin asignar</option>
+                                {this.getEmployees().map((e) => <option value={e.id}>{e.name + ' ' + e.last_name}</option>)}
                             </Form.Select>
                         </Col>
                     </Form.Group>
@@ -91,7 +94,7 @@ export default class ProjectForm extends Component {
                     </Toast>
                 </ToastContainer>}          
             </div>
-        )//ver como desactivar botón si no esta el form valido
+        )
     }
 
     handlerSelectedStartDate(selectedDate){
