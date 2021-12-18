@@ -1,13 +1,13 @@
 #project-header, #project-tasks-header{
-    background-color: #131c46;
+    background-color: #557996;
     color:#fff;
 }
 
 .project-subtitle{
-    background-color: #3c4c8f;
+    /*background-color: #131c46;*/
     padding: .5em;
     border: .1em solid #fff;
-    color: #fff;
+    color: #131c46;
 }
 
 #project-info{

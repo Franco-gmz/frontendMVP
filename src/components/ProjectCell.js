@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import './ProjectCell.css'
 export default class ProjectCell extends Component {
 
     constructor(props){
@@ -17,7 +17,7 @@ export default class ProjectCell extends Component {
 
     header(values){
         return (
-            <tr>
+            <tr id="project-cell-header">
                 {values.map( (value, index) => {
                     return (<th key={index}>{value}</th>)
                 })}
@@ -40,8 +40,6 @@ export default class ProjectCell extends Component {
     }
 
     render() {
-        console.log(this.props.values)
-        console.log("name",this.props.values.leader)
         if (this.props.header) return this.header(this.props.values);
         return this.row(this.props.values, this.props.idx);
     }

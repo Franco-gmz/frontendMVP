@@ -6,10 +6,11 @@ import Row from 'react-bootstrap/Row'
 import Modal from 'react-bootstrap/Modal'
 import  { AiOutlineClose} from 'react-icons/ai'
 import { Table } from 'react-bootstrap'
-import { AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { RiSearchLine } from 'react-icons/ri'
+import  {AiOutlinePlus} from 'react-icons/ai'
 import { addTaskTeam } from '../services/team/addTaskTeam'
 import { deleteTaskTeam } from '../services/team/deleteTaskTeam'
+import './TeamWindow.css'
 
 export default class TeamWindow extends Component {
     constructor(props){
@@ -38,7 +39,7 @@ export default class TeamWindow extends Component {
     render() {
         return (
     <>
-        <Button className="crud-button" variant="success" onClick={this.handleShow}><AiOutlineUsergroupAdd/></Button>
+        <Button className="team-window-button crud-button" variant="light" onClick={this.handleShow}><AiOutlinePlus/></Button>
         <Modal show={this.state.show} onHide={this.handleClose} size="lg">
             <Modal.Header closeButton>
                 <Modal.Title>Agregar miembros {this.state.is_project ? "al proyecto" : "a la tarea"}</Modal.Title>

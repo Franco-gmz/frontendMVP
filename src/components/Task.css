@@ -2,11 +2,13 @@
     min-width: 250px;
     max-width: 500px;
     margin: 1em;
+    border: 1px solid #557996;
 }
 
 #task-header{
-    background-color: #3c4c8f;
-    color: #fff;
+    background-color: #efefef;
+    color: #557996;
+    border-bottom: 1px solid #557996;
 }
 
 .task-description, .task-team{
@@ -14,4 +16,15 @@
     background-color: #ddd;
     padding: 1em;
     margin-top: .5em;
+}
+
+.task-state{
+    background-color:#557996 !important;
+    padding:.2em;
+    margin-bottom: .5em !important;
+    
+}
+
+.task-state > small{
+    color: #fff;   
 }
