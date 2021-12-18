@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal'
 import  { AiOutlineClose} from 'react-icons/ai'
 import { Table } from 'react-bootstrap'
 import { AiOutlineUsergroupAdd } from 'react-icons/ai'
+import { RiSearchLine } from 'react-icons/ri'
 import { addTaskTeam } from '../services/team/addTaskTeam'
 import { deleteTaskTeam } from '../services/team/deleteTaskTeam'
 

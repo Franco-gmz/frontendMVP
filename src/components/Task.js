@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Card from 'react-bootstrap/Card'
+import {Row, Col, Card} from 'react-bootstrap'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import EditTaskWindow from './EditTaskWindow'
 import DeleteWindow from './DeleteWindow'
@@ -33,14 +33,22 @@ export default class Task extends Component {
     render() {
         return (
                 <Card id="task">
-                    <Card.Header closeButton={false}>
-                        <Card.Title id="task-title">{this.props.values.id} - {this.props.values.name}</Card.Title>
+                    <Card.Header id="task-header" closeButton={false}>
+                    <Row id="project-header-row">
+                        <Col sm="auto"><Card.Title id="task-title">{this.props.values.id} - {this.props.values.name}</Card.Title></Col>
+                        <Col id="buttons-col">
+                            <ButtonGroup id="project-buttons">
+                                <EditTaskWindow edit={true} values={this.props.values} onSubmit={this.handleUpdate}/>
+                                <DeleteWindow onDelete={this.handleDelete} values={this.props.values}/>{'      '}
+                            </ButtonGroup>
+                        </Col>
+                    </Row>
                     </Card.Header>
                     <Card.Body>
                         <Card.Subtitle id="task-subtitle"><small>{this.props.values.state}</small></Card.Subtitle>
-                        <Card.Subtitle id="task-subtitle">Descripción</Card.Subtitle>
+                        <Card.Subtitle id="task-subtitle" className="left-align">Descripción</Card.Subtitle>
                         <Card.Text className="task-description">{this.props.values.description}</Card.Text>
-                        <Card.Subtitle id="task-subtitle">Equipo asignado{'   '}<TeamWindow onUpdate={this.handleUpdateTeam} id={this.props.values.id} team={this.state.team} /></Card.Subtitle>
+                        <Card.Subtitle id="task-subtitle" className="left-align">Equipo asignado{'   '}<TeamWindow onUpdate={this.handleUpdateTeam} id={this.props.values.id} team={this.state.team} /></Card.Subtitle>
                         <Card.Text className="task-team">
                             <Table>
                                 <thead>
@@ -64,12 +72,6 @@ export default class Task extends Component {
                             </Table>
                         </Card.Text>
                     </Card.Body>
-                    <Card.Footer>
-                        <ButtonGroup id="task-buttons">
-                            <EditTaskWindow edit={true} values={this.props.values} onSubmit={this.handleUpdate}/>
-                            <DeleteWindow onDelete={this.handleDelete} values={this.props.values}/>{'            '}
-                        </ButtonGroup>
-                    </Card.Footer>
                 </Card>
         )
     }

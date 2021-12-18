@@ -26,7 +26,6 @@ export default class Project extends Component {
         this.handlerDelete = this.handlerDelete.bind(this);
         this.handleCreateTask = this.handleCreateTask.bind(this);
         this.handleUpdateComponents = this.handleUpdateComponents.bind(this);
-        this.handleUpdateTeam = this.handleUpdateTeam.bind(this);
         this.handleRefresh = this.handleRefresh.bind(this)
     }
 
@@ -40,51 +39,55 @@ export default class Project extends Component {
     render() {
         return (
             <div id="project-view" key={this.state.update}>
-                <Row>
-                    <Col sm="12">
+                <Row className="justify-content-md-center">
+                    <Col sm="10">
                         <Card id="project-card">
                             <Card.Header id="project-header">
-                                <Card.Title className="project-title">{this.props.values.name + '          '}</Card.Title>
+                                <Row id="project-header-row">
+                                    <Col sm={{ span: 8, offset: 2 }}><Card.Title className="project-title">{this.props.values.name + '          '}</Card.Title></Col>
+                                    <Col id="buttons-col" sm="auto">
+                                        <ButtonGroup id="project-buttons">
+                                            <EditProjectWindow onSubmit={this.handlerUpdate} values={this.props.values} />
+                                            <DeleteWindow onDelete={this.handlerDelete} values={this.props.values}/>
+                                            <Button size="sm" className="crud-button" variant="light" onClick={() => this.props.onClose(this.props.values.id)}><AiOutlineClose/></Button>
+                                        </ButtonGroup>
+                                    </Col>
+                                </Row>
                                 <Card.Subtitle><small className="project-id">Identificador {this.props.values.id}</small></Card.Subtitle>
                             </Card.Header>
                             <Card.Body id="project-info">
                                 <Card.Subtitle className="project-subtitle">Descripción</Card.Subtitle>
-                                <Card.Text className="project-description">{this.props.values.description}</Card.Text>
+                                <Card.Text className="project-value project-description">{this.props.values.description}</Card.Text>
                                 <Card.Subtitle className="project-subtitle">Estado</Card.Subtitle>
-                                <Card.Text className="project-state">{this.props.values.state}</Card.Text>
+                                <Card.Text className="project-value project-state">{this.props.values.state}</Card.Text>
                                 <Card.Subtitle className="project-subtitle">Fecha de inicio</Card.Subtitle>
-                                <Card.Text className="project-start">{this.props.values.start}</Card.Text>
+                                <Card.Text className="project-value project-start">{this.props.values.start}</Card.Text>
                                 <Card.Subtitle className="project-subtitle">Fecha de finalización</Card.Subtitle>
-                                <Card.Text className="project-finish">{this.props.values.finish}</Card.Text>
+                                <Card.Text className="project-value project-finish">{this.props.values.finish}</Card.Text>
                                 <Card.Subtitle className="project-subtitle">Asignado a</Card.Subtitle>
-                                <Card.Text className="project-leader">{this.state.leader_name != ' ' ? this.state.leader_name : "Sin asignar"}</Card.Text>
+                                <Card.Text className="project-value project-leader">{this.state.leader_name != ' ' ? this.state.leader_name : "Sin asignar"}</Card.Text>
                                 <Card.Subtitle className="project-subtitle">Horas acumuladas</Card.Subtitle>
-                                <Card.Text className="project-hours">{this.state.hours || 0}</Card.Text>
+                                <Card.Text className="project-value project-hours">{this.state.hours || 0}hs.</Card.Text>
                             </Card.Body>
-                            <Card.Footer>
-                                <ButtonGroup id="project-buttons">
-                                    <EditProjectWindow onSubmit={this.handlerUpdate} values={this.props.values} />{'     '}
-                                    <DeleteWindow onDelete={this.handlerDelete} values={this.props.values}/>{'     '}
-                                    <Button className="crud-button" variant="warning" onClick={() => this.props.onClose(this.props.values.id)}>Cerrar <AiOutlineClose/></Button>
-                                </ButtonGroup>
-                            </Card.Footer> 
                         </Card>
                     </Col>
                 </Row>
-                <Row>
+                <Row className="justify-content-md-center" id="task-row">
                     <Col sm="12">
                         <Card id="project-tasks-card">
                             <Card.Header id="project-tasks-header">
-                                <Card.Title>Tareas</Card.Title>
+                                <Row>
+                                    <Col><Card.Title>Tareas</Card.Title></Col>
+                                    <Col xs="1">
+                                        <ButtonGroup id="tasks-buttons">
+                                            <EditTaskWindow edit={false} onSubmit={this.handleCreateTask} values={{name:'',description:'', state:'',team:[]}}/>
+                                        </ButtonGroup>
+                                    </Col>
+                                </Row>
                             </Card.Header>
                             <Card.Body>
                                 <TasksBoard id={this.props.values.id} />
                             </Card.Body>
-                            <Card.Footer>
-                                <ButtonGroup id="tasks-buttons">
-                                    <EditTaskWindow edit={false} onSubmit={this.handleCreateTask} values={{name:'',description:'', state:'',team:[]}}/>
-                                </ButtonGroup>
-                            </Card.Footer>
                         </Card>
                     </Col>
                 </Row>
@@ -103,7 +106,7 @@ export default class Project extends Component {
 
     async handleCreateTask(values){
         let res = await createTask(this.props.values.id, values);
-        if(res.status == 200) window.location.reload(); //revisar
+        this.props.onUpdate(this.props.values.id, this.props.values.leader_name)
     }
 
     async handlerDelete(){
@@ -114,17 +117,5 @@ export default class Project extends Component {
     handleUpdateComponents(){     
         this.props.onUpdate(this.props.values.id);
         this.setState({update: !this.state.update});
-    }
-
-    async handleUpdateTeam(added, removed){
-        if (added.length > 0){
-            let res = await addToProjectTeam(this.props.values.id, added);
-        }
-        if (removed.length > 0){
-            removed.forEach(async (e) => {
-                let res = await deleteFromProjectTeam(this.props.values.id, e);
-            })
-        }
-        this.handleUpdateComponents();
     }
 }

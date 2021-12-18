@@ -1,8 +1,12 @@
 #task{
     min-width: 250px;
     max-width: 500px;
-    flex-grow: 1;
     margin: 1em;
+}
+
+#task-header{
+    background-color: #3c4c8f;
+    color: #fff;
 }
 
 .task-description, .task-team{

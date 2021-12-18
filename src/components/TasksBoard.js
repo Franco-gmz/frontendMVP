@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Spinner } from 'react-bootstrap';
+import { Row, Col, Spinner } from 'react-bootstrap';
 import { getTasks } from '../services/tasks/getTasks'
 import Task from './Task';
 import './TaskBoard.css'
@@ -30,9 +30,9 @@ export default class TasksBoard extends Component {
                 <div key={this.state.update} id="task-container">
                     {this.state.tasks != null ? this.state.tasks.map( (task, index) => {
                         return <Task key={this.state.update} id_project={this.props.id} values={task} onUpdate={this.handleUpdate}/>
-                    }) : <strong>No se han asignado tareas a este proyecto</strong>}
+                    }) : <Col sm="10"><strong>No se han asignado tareas a este proyecto</strong></Col>}
                 </div> :
-                <Spinner animation="border" />
+                <Row><Col sm="10"><Spinner animation="border" /></Col></Row>
         )
     }
 }

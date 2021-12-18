@@ -1,13 +1,39 @@
-#project-header{
+#project-header, #project-tasks-header{
     background-color: #131c46;
-    color: #fff;
+    color:#fff;
 }
 
 .project-subtitle{
     background-color: #3c4c8f;
     padding: .5em;
+    border: .1em solid #fff;
+    color: #fff;
 }
 
 #project-info{
     padding:0;
+}
+
+#project-header-row{
+    margin: 0 !important;
+    flex-wrap: nowrap !important;
+}
+
+#buttons-col{
+    margin:0 !important;
+    padding:0 !important;
+}
+
+.button-group{
+    padding: 0 !important;
+}
+
+.project-value{
+    background-color: #efefef;
+    padding: .5em;
+    margin: 0 !important;
+}
+
+#task-row{
+    margin-top: 2em;
 }

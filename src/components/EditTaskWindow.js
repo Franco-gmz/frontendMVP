@@ -13,7 +13,7 @@ export default class EditTaskWindow extends Component {
     constructor(props){
         super(props);
         this.state = {show:false, name:this.props.values.name || '', description:this.props.values.description || '',
-                      state:this.props.values.state || ''}
+                      state:this.props.values.state || 'No iniciada'}
         this.handleName = this.handleName.bind(this);
         this.handleDescription = this.handleDescription.bind(this);
         this.handleState = this.handleState.bind(this);
@@ -46,7 +46,7 @@ export default class EditTaskWindow extends Component {
     render() {
         return (
       <>
-        <Button variant="warning" onClick={this.handleShow}>{!this.props.edit ? <div>Agregar tarea <AiOutlinePlus/></div>:<div>Editar tarea <BiEdit/></div>}</Button>
+        <Button variant="success" onClick={this.handleShow}>{!this.props.edit ? <div><AiOutlinePlus/></div>:<div><BiEdit/></div>}</Button>
         <Modal show={this.state.show} onHide={this.handleClose} size="lg">
           <Modal.Header closeButton>
             <Modal.Title>{this.props.edit ? "Editar tarea":"Crear tarea"}</Modal.Title>
@@ -66,11 +66,12 @@ export default class EditTaskWindow extends Component {
                 <Form.Group  as={Row} className="mb-3 left-align" controlId="exampleForm.ControlTextarea1">
                     <Form.Label column sm="4">Estado</Form.Label>
                     <Col sm="auto">
-                        <Form.Select onChange={(e) => this.handleState(e)} column sm="2" aria-label="Default select example">
+                        <Form.Control as="select" onChange={(e) => this.handleState(e)} column sm="2" aria-label="Default select example">
                             <option selected={this.state.state == "No iniciada"} value="No iniciada">No iniciada</option>
                             <option selected={this.state.state == "Iniciada"} value="Iniciada">Iniciada</option>
                             <option selected={this.state.state == "Finalizada"} value="Finalizada">Finalizada</option>
-                        </Form.Select>
+                        </Form.Control>
+
                     </Col>
                 </Form.Group>
             </Form> 

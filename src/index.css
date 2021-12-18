@@ -20,12 +20,3 @@ code {
 .obligatory{
   color:red;
 }
-
-#project-buttons, #team-buttons, #tasks-buttons, #task-buttons{
-  display: flex;
-  flex-wrap: nowrap;
-}
-
-.crud-button{
-  flex-grow: 1;
-}

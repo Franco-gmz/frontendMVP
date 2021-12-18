@@ -12,7 +12,7 @@ export default function EditWindow(props) {
 
     return (
       <>
-        <Button className="crud-button" variant="danger" onClick={handleShow}>Eliminar <AiFillDelete/></Button>
+        <Button size="sm" className="crud-button" variant="danger" onClick={handleShow}><AiFillDelete/></Button>
         <Modal show={show} onHide={handleClose} size="lg">
           <Modal.Header closeButton>
             <Modal.Title>Eliminar proyecto - {props.values.name}</Modal.Title>

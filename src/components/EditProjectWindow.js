@@ -74,7 +74,7 @@ export default class EditProjectWindow extends Component {
     render() {
         return (
       <>
-        <Button className="crud-button" variant="primary" onClick={this.handleShow}>Editar <BiEdit/></Button>
+        <Button size="sm" className="crud-button" variant="success" onClick={this.handleShow}><BiEdit/></Button>
         <Modal key={this.state.key} show={this.state.show} onHide={this.handleClose} size="lg">
           <Modal.Header closeButton>
             <Modal.Title>Editor - {this.props.values.name}</Modal.Title>
