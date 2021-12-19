@@ -1,4 +1,4 @@
-import axios from 'axios'
+/*import axios from 'axios'
 
 export const addToProjectTeam = async function(id_project, team){
     console.log(team)
@@ -9,4 +9,4 @@ export const addToProjectTeam = async function(id_project, team){
         team: team
     });
     return {status:res.status, result:res.data.results};
-}
+}*/

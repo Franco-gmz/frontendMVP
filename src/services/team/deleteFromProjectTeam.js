@@ -1,4 +1,4 @@
-import axios from 'axios'
+/*import axios from 'axios'
 
 export const deleteFromProjectTeam = async function(id, team){
     console.log("from delete",team, id)
@@ -7,4 +7,4 @@ export const deleteFromProjectTeam = async function(id, team){
         headers: {'Access-Control-Allow-Origin':'*'},
     });
     return {status:res.status, result:res.data.results};
-}
+}*/

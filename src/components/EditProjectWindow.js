@@ -31,7 +31,7 @@ export default class EditProjectWindow extends Component {
         try{
             let month = (parseInt(date.getMonth() + 1))
             toString(month)
-            let formattedDate = (date.getDate() + "/" + month + "/" + date.getFullYear());
+            let formattedDate = ( month + "/" + date.getDate() + "/" + date.getFullYear());
             return formattedDate;
         } catch(e){
             return date;

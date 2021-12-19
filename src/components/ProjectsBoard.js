@@ -18,7 +18,7 @@ export default class ProjectsBoard extends Component {
     async componentDidMount(){
         let fetched =  await getProjects();
         let employees = await getAllEmployees();
-        fetched[1].map(async (proj) => {
+        fetched.results.map(async (proj) => {
 
             let id_leader = proj.leader;
             if(id_leader == 0 || id_leader == undefined || id_leader == null){
@@ -32,7 +32,7 @@ export default class ProjectsBoard extends Component {
                 Object.assign(proj,{leader_name:info_leader.name + ' ' + info_leader.last_name})
             }
         })
-        this.setState({projects : fetched[1], employees: employees}, () => {
+        this.setState({projects : fetched.results, employees: employees}, () => {
             this.setState({ fetched: true })
         })
     }
