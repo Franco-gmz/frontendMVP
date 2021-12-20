@@ -5,17 +5,27 @@ import './Projects.css'
 import Project from '../components/Project';
 import ProjectForm from '../components/ProjectForm';
 import { getProject } from '../services/projects/getProject'
+import { getAllEmployees } from '../services/team/getAllEmployees'
+
 export default class Projects extends Component {
 
     constructor(props){
         super(props);
-        this.state = {projectClicked:false, project:[], active:this.props.active ? this.props.active : "projects", update:false, key:false}
+        this.state = {projectClicked:false, project:[], active:this.props.active ? this.props.active : "projects", update:false, key:false, show:false}
         this.handlerClickProject = this.handlerClickProject.bind(this);
         this.handlerCloseProject = this.handlerCloseProject.bind(this);
         this.handlerClickTab = this.handlerClickTab.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.handleUpdateProject = this.handleUpdateProject.bind(this);
+    }
+
+    async componentDidMount(){
+        let fetched =  await getAllEmployees();
+        localStorage.setItem("employees", JSON.stringify(fetched.results))
+        this.setState({employees: fetched.results}, () => {
+            this.setState({show:true})
+        }); 
     }
 
     handlerClickProject(project){
@@ -54,7 +64,7 @@ export default class Projects extends Component {
 
     render() {
         return (
-            <div id="projects-view">
+            this.state.show && <div id="projects-view">
                 <Tabs onSelect={(key) => {this.handlerClickTab(key)}} activeKey={this.state.active} id="uncontrolled-tab-example" className="mb-3">
                     <Tab  eventKey="projects" title="Proyectos">
                         <ProjectsBoard onUpdate={this.handleUpdate} key={this.state.update} onClick={this.handlerClickProject} />
