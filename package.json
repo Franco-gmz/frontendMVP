@@ -8,12 +8,13 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.24.0",
     "bootstrap": "^5.1.3",
+    "eslint-plugin-react": "^7.31.8",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.3",
     "react-calendar": "^3.5.0",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -39,5 +40,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-actions-on-google": "^1.0.1"
   }
 }
