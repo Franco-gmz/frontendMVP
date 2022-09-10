@@ -8,5 +8,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm install eslint eslint-config-google
-      - run: npx eslint ./src
+      - run: npx eslint
           
