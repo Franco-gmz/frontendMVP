@@ -7,6 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: eslint
-        run: npx eslint ../../src
+      - name: Install eslint
+      - run: npm install --save-dev eslint eslint-config-google
           
