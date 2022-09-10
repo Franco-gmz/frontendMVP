@@ -6,7 +6,7 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: stefanoeb/eslint-action@1.0.2
-        with:
-          files: src/
+      - uses: actions/checkout@v3
+      - run: npm install eslint eslint-config-google
+      - run: npx eslint ./src
+          
